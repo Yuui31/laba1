@@ -81,7 +81,7 @@
             <TextBlock Text="Иконки противников" FontWeight="Bold"/>
             <Button x:Name="LoadIconsButton" Content="Загрузить иконки" 
                     Margin="0,5,0,10" Padding="10,5" Click="LoadIconsButton_Click"/>
-            <ListBox x:Name="IconsListBox" Height="649"
+            <ListBox x:Name="IconsListBox" Height="605"
                      SelectionChanged="IconsListBox_SelectionChanged"/>
         </StackPanel>
     </Grid>
