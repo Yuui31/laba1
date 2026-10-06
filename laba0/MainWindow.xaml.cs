@@ -110,6 +110,71 @@ namespace laba1
             // 6. Очищаем форму
             ClearForm();
         }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            // 1. Проверяем, что выбран противник для редактирования
+            if (EnemiesListBox.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите противника для редактирования!");
+                return;
+            }
+
+            // 2. Запоминаем старое имя (по нему будем искать)
+            string oldName = EnemiesListBox.SelectedItem.ToString();
+
+            // 3. Проверяем, что новое имя не пустое
+            if (string.IsNullOrWhiteSpace(NameTextBox.Text))
+            {
+                MessageBox.Show("Введите имя противника!");
+                return;
+            }
+
+            // 4. Парсим числа (те же проверки, что и в AddButton_Click)
+            if (!int.TryParse(BaseLifeTextBox.Text, out int baseLife))
+            {
+                MessageBox.Show("Некорректное базовое здоровье!");
+                return;
+            }
+            if (!double.TryParse(LifeModifierTextBox.Text, out double lifeModifier))
+            {
+                MessageBox.Show("Некорректный модификатор здоровья!");
+                return;
+            }
+            if (!int.TryParse(BaseGoldTextBox.Text, out int baseGold))
+            {
+                MessageBox.Show("Некорректное базовое золото!");
+                return;
+            }
+            if (!double.TryParse(GoldModifierTextBox.Text, out double goldModifier))
+            {
+                MessageBox.Show("Некорректный модификатор золота!");
+                return;
+            }
+            if (!double.TryParse(SpawnChanceTextBox.Text, out double spawnChance))
+            {
+                MessageBox.Show("Некорректный шанс появления!");
+                return;
+            }
+
+            // 5. Обновляем противника в списке
+            enemyList.UpdateEnemy(
+                oldName,
+                NameTextBox.Text,
+                selectedIconName,
+                baseLife,
+                lifeModifier,
+                baseGold,
+                goldModifier,
+                spawnChance
+            );
+
+            // 6. Обновляем интерфейс и очищаем форму
+            RefreshEnemiesListBox();
+            ClearForm();
+            MessageBox.Show("Противник обновлён!");
+        }
+
         // Кнопка "Удалить"
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {

@@ -64,6 +64,24 @@ namespace laba1
             }
             return names;
         }
+        public void UpdateEnemy(string oldName, string newName, string iconName,
+                       int baseLife, double lifeModifier, int baseGold,
+                       double goldModifier, double spawnChance)
+        {
+            // Находим старого противника
+            CEnemyTemplate found = GetEnemyByName(oldName);
+            if (found == null)
+                return;
+
+            // Обновляем все его свойства
+            found.Name = newName;
+            found.IconName = iconName;
+            found.BaseLife = baseLife;
+            found.LifeModifier = lifeModifier;
+            found.BaseGold = baseGold;
+            found.GoldModifier = goldModifier;
+            found.SpawnChance = spawnChance;
+        }
         public void SaveToJson(string path)
         {
             // список enemies в JSONстроку

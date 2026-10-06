@@ -62,9 +62,11 @@
             <StackPanel Grid.Row="1" Margin="0,185,0,0">
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                     <Button x:Name="AddButton" Content="Добавить" 
-                    Margin="0,0,5,0" Padding="15,5" Click="AddButton_Click"/>
+            Margin="0,0,5,0" Padding="15,5" Click="AddButton_Click"/>
+                    <Button x:Name="EditButton" Content="Редактировать" 
+            Margin="5,0,5,0" Padding="15,5" Click="EditButton_Click"/>
                     <Button x:Name="DeleteButton" Content="Удалить" 
-                    Margin="5,0,0,0" Padding="15,5" Click="DeleteButton_Click"/>
+            Margin="5,0,0,0" Padding="15,5" Click="DeleteButton_Click"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
