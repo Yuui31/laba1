@@ -134,13 +134,30 @@ namespace laba1
         // Кнопка "Сохранить список"
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: этап 10
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.DefaultExt = "json";
+            dialog.Filter = "JSON files (*.json)|*.json";
+
+            if (dialog.ShowDialog() == true)
+            {
+                enemyList.SaveToJson(dialog.FileName);
+                MessageBox.Show("Список сохранён!");
+            }
         }
 
         // Кнопка "Загрузить список"
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: этап 10
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.DefaultExt = "json";
+            dialog.Filter = "JSON files (*.json)|*.json";
+
+            if (dialog.ShowDialog() == true)
+            {
+                enemyList.LoadFromJson(dialog.FileName);
+                RefreshEnemiesListBox();
+                MessageBox.Show("Список загружен!");
+            }
         }
 
         // Событие выбора иконки в правом списке
@@ -164,7 +181,38 @@ namespace laba1
         // Событие выбора противника в левом списке
         private void EnemiesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // TODO: этап 9
+            // Если ничего не выбрано — выходим
+            if (EnemiesListBox.SelectedItem == null)
+                return;
+
+            // Имя выбранного противника
+            string selectedName = EnemiesListBox.SelectedItem.ToString();
+
+            // Ищем его в списке
+            CEnemyTemplate found = enemyList.GetEnemyByName(selectedName);
+            if (found == null)
+                return;
+
+            // Заполняем форму его данными
+            NameTextBox.Text = found.Name;
+            BaseLifeTextBox.Text = found.BaseLife.ToString();
+            LifeModifierTextBox.Text = found.LifeModifier.ToString();
+            BaseGoldTextBox.Text = found.BaseGold.ToString();
+            GoldModifierTextBox.Text = found.GoldModifier.ToString();
+            SpawnChanceTextBox.Text = found.SpawnChance.ToString();
+
+            // Запоминаем имя иконки и пытаемся её показать
+            selectedIconName = found.IconName;
+            // (для отображения иконки в центре нужно найти её в enemyIcons)
+            foreach (EnemyIcon icon in enemyIcons)
+            {
+                if (icon.Name == found.IconName)
+                {
+                    MainEnemyIcon.Source = new BitmapImage(
+                        new Uri(icon.ImagePath, UriKind.Absolute));
+                    break;
+                }
+            }
         }
 
         // ==================================================
