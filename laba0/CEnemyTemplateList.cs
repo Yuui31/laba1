@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
+using System.Text.Json;
 
 namespace laba1
 {
@@ -62,7 +64,26 @@ namespace laba1
             }
             return names;
         }
-        public void SaveToJson(string path) { }
-        public void LoadFromJson(string path) { }
+        public void SaveToJson(string path)
+        {
+            // список enemies в JSONстроку
+            string json = JsonSerializer.Serialize(enemies);
+
+            // записываем строку в файл по указанному пути
+            File.WriteAllText(path, json);
+        }
+        public void LoadFromJson(string path)
+        {
+            if (!File.Exists(path))
+                return;
+
+            // читаем содержимое файла
+            string json = File.ReadAllText(path);
+
+            // JSONстроку обратно в список
+            // Если файл гавно —  null, тогда + пустой список
+            enemies = JsonSerializer.Deserialize<List<CEnemyTemplate>>(json)
+                      ?? new List<CEnemyTemplate>();
+        }
     }
 }
