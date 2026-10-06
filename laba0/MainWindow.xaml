@@ -5,8 +5,84 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:laba0"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Редактор противников" Height="700" Width="1000">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>  <!-- список противников -->
+            <ColumnDefinition Width="*"/>     <!-- форма -->
+            <ColumnDefinition Width="250"/>   <!-- иконки -->
+        </Grid.ColumnDefinitions>
 
+        <!-- ЛЕВАЯ КОЛОНКА -->
+        <StackPanel Grid.Column="0" Margin="10">
+            <TextBlock Text="Список противников" FontWeight="Bold"/>
+            <ListBox x:Name="EnemiesListBox" Height="649" 
+                     SelectionChanged="EnemiesListBox_SelectionChanged"/>
+        </StackPanel>
+
+        <!-- ЦЕНТР -->
+        <Grid Grid.Column="1" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- поля ввода — по содержимому -->
+                <RowDefinition Height="*"/>
+                <!-- пустое место — растягивается -->
+                <RowDefinition Height="Auto"/>
+                <!-- кнопки — прижаты к низу -->
+            </Grid.RowDefinitions>
+
+            <!-- Поля ввода в первой строке -->
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="Имя противника:" FontWeight="Bold"/>
+                <TextBox x:Name="NameTextBox" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Базовое здоровье:" FontWeight="Bold"/>
+                <TextBox x:Name="BaseLifeTextBox" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Модификатор здоровья:" FontWeight="Bold"/>
+                <TextBox x:Name="LifeModifierTextBox" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Базовое золото:" FontWeight="Bold"/>
+                <TextBox x:Name="BaseGoldTextBox" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Модификатор золота:" FontWeight="Bold"/>
+                <TextBox x:Name="GoldModifierTextBox" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Шанс появления:" FontWeight="Bold"/>
+                <TextBox x:Name="SpawnChanceTextBox" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Иконка противника:" FontWeight="Bold"/>
+                <Border BorderBrush="Gray" BorderThickness="1" 
+                Height="80" Width="80" HorizontalAlignment="Left" Margin="0,0,0,15">
+                    <Image x:Name="MainEnemyIcon" Stretch="Uniform"/>
+                </Border>
+            </StackPanel>
+
+            <!-- Кнопки во третьей строке (прижаты к низу) -->
+            <StackPanel Grid.Row="1" Margin="0,202,0,24">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <Button x:Name="AddButton" Content="Добавить" 
+                    Margin="0,0,5,0" Padding="15,5" Click="AddButton_Click"/>
+                    <Button x:Name="DeleteButton" Content="Удалить" 
+                    Margin="5,0,0,0" Padding="15,5" Click="DeleteButton_Click"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="SaveButton" Content="Сохранить список" 
+                    Margin="0,0,5,0" Padding="15,5" Click="SaveButton_Click"/>
+                    <Button x:Name="LoadButton" Content="Загрузить список" 
+                    Margin="5,0,0,0" Padding="15,5" Click="LoadButton_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <!-- ПРАВАЯ КОЛОНКА -->
+        <StackPanel Grid.Column="2" Margin="10">
+            <TextBlock Text="Иконки противников" FontWeight="Bold"/>
+            <Button x:Name="LoadIconsButton" Content="Загрузить иконки" 
+                    Margin="0,5,0,10" Padding="10,5" Click="LoadIconsButton_Click"/>
+            <ListBox x:Name="IconsListBox" Height="649"
+                     SelectionChanged="IconsListBox_SelectionChanged"/>
+        </StackPanel>
     </Grid>
 </Window>
