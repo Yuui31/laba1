@@ -25,8 +25,7 @@ namespace laba1
 
         public MainWindow()
         {
-            InitializeComponent();
-
+            InitializeComponent(); 
             // Инициализация списков
             enemyList = new CEnemyTemplateList();
             enemyIcons = new List<EnemyIcon>();
