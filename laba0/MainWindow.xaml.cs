@@ -39,7 +39,15 @@ namespace laba1
         // Кнопка "Загрузить иконки"
         private void LoadIconsButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: этап 7.3
+            // Создаём диалог выбора папки
+            OpenFolderDialog dialog = new OpenFolderDialog();
+
+            // ShowDialog возвращает true, если пользователь выбрал папку и нажал OK
+            if (dialog.ShowDialog() == true)
+            {
+                // Передаём путь к выбранной папке в метод загрузки
+                LoadIconsFromFolder(dialog.FolderName);
+            }
         }
 
         // Кнопка "Добавить"
@@ -85,7 +93,34 @@ namespace laba1
         // Загрузка иконок из указанной папки
         private void LoadIconsFromFolder(string path)
         {
-            // TODO: этап 7.4
+            // 1. Очищаем старые данные — если пользователь загружает иконки повторно
+            enemyIcons.Clear();
+            IconsListBox.Items.Clear();
+
+            // 2. Ищем все .png-файлы в указанной папке
+            string[] files = Directory.GetFiles(path, "*.png");
+
+            // 3. Для каждого найденного файла создаём EnemyIcon
+            foreach (string file in files)
+            {
+                EnemyIcon icon = new EnemyIcon
+                {
+                    Name = System.IO.Path.GetFileName(file),   // "goblin_1.png"
+                    ImagePath = file                 // полный путь
+                };
+                enemyIcons.Add(icon);
+            }
+
+            // 4. Отображаем иконки в ListBox
+            foreach (EnemyIcon icon in enemyIcons)
+            {
+                Image image = new Image()
+                {
+                    Source = new BitmapImage(new Uri(icon.ImagePath, UriKind.Absolute)),
+                    Height = 64
+                };
+                IconsListBox.Items.Add(image);
+            }
         }
     }
 }
