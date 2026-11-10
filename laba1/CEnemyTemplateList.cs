@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace laba1
 {
-    public class CEnemyTemplateList
+    public class CEnemyTemplateList : ISaveList<CEnemyTemplate>
     {
         private List<CEnemyTemplate> enemies;
 
@@ -18,7 +18,7 @@ namespace laba1
                             double lifeModifier, int baseGold, 
                             double goldModifier, double spawnChance)
         {
-            CEnemyTemplate newEnemy = new CEnemyTemplate(name, iconName, baseLife, lifeModifier, baseGold, goldModifier, spawnChance);
+            CEnemyTemplate newEnemy = new CNormalEnemyTemplate(name, iconName, baseLife, lifeModifier, baseGold, goldModifier, spawnChance);
             enemies.Add(newEnemy);
         }
         public CEnemyTemplate GetEnemyByName(string name)
@@ -84,24 +84,20 @@ namespace laba1
         }
         public void SaveToJson(string path)
         {
-            // список enemies в JSONстроку
-            string json = JsonSerializer.Serialize(enemies);
-
-            // записываем строку в файл по указанному пути
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            options.Converters.Add(new CEnemyTemplateConverter()); // Подключаем конвертер
+            string json = JsonSerializer.Serialize(enemies, options);
             File.WriteAllText(path, json);
         }
+
         public void LoadFromJson(string path)
         {
-            if (!File.Exists(path))
-                return;
-
-            // читаем содержимое файла
+            if (!File.Exists(path)) return;
             string json = File.ReadAllText(path);
+            var options = new JsonSerializerOptions();
+            options.Converters.Add(new CEnemyTemplateConverter()); // Подключаем конвертер
 
-            // JSONстроку обратно в список
-            // Если файл гавно —  null, тогда + пустой список
-            enemies = JsonSerializer.Deserialize<List<CEnemyTemplate>>(json)
-                      ?? new List<CEnemyTemplate>();
+            enemies = JsonSerializer.Deserialize<List<CEnemyTemplate>>(json, options) ?? new List<CEnemyTemplate>();
         }
     }
 }
